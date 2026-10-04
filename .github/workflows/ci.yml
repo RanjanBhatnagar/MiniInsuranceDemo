@@ -1,0 +1,61 @@
+name: MiniInsuranceDemo CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - "feature/**"
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  dotnet-build-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore .NET dependencies
+        run: dotnet restore MiniInsuranceDemo.slnx
+
+      - name: Build .NET solution
+        run: dotnet build MiniInsuranceDemo.slnx --no-restore --configuration Release
+
+      - name: Run .NET tests
+        run: dotnet test MiniInsuranceDemo.slnx --no-build --configuration Release
+
+  angular-build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: frontend/insurance-ui/package-lock.json
+
+      - name: Install Angular dependencies
+        working-directory: frontend/insurance-ui
+        run: npm ci
+
+      - name: Build Angular application
+        working-directory: frontend/insurance-ui
+        run: npm run build

@@ -1,0 +1,50 @@
+{
+    "Routes": [
+        {
+            "UpstreamPathTemplate": "/api/auth/{everything}",
+            "UpstreamHttpMethod": [
+                "Post"
+            ],
+            "DownstreamPathTemplate": "/api/auth/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+              {
+                "Host": "auth-api",
+                "Port": 8080
+              }
+            ]
+        },
+        {
+            "UpstreamPathTemplate": "/api/customers/{everything}",
+            "UpstreamHttpMethod": [
+                "Get",
+                "Post"
+            ],
+            "DownstreamPathTemplate": "/api/customers/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+              {
+                "Host": "customer-api",
+                "Port": 8080
+              }
+            ]
+        },
+        {
+            "UpstreamPathTemplate": "/api/policies/{everything}",
+            "UpstreamHttpMethod": [
+                "Get"
+            ],
+            "DownstreamPathTemplate": "/api/policies/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+              {
+                "Host": "insurance-api",
+                "Port": 8080
+              }
+            ]
+        }
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "http://localhost"
+    }
+}

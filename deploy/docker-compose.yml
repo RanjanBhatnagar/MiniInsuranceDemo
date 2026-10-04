@@ -1,0 +1,78 @@
+services:
+
+  gateway:
+    build:
+      context: ../backend/Gateway
+    container_name: gateway
+    expose:
+    - "8080"
+    depends_on:
+      - auth-api
+      - customer-api
+      - insurance-api
+
+  auth-api:
+    build:
+      context: ../backend/AuthAPI
+    container_name: auth-api
+    expose:
+      - "8080"
+
+  customer-api:
+    build:
+      context: ../backend/CustomerAPI
+    container_name: customer-api
+    expose:
+      - "8080"
+    environment:
+      ConnectionStrings__CustomerDatabase: "Data Source=/app/data/customers.db"
+      RabbitMQ__Host: rabbitmq
+      RabbitMQ__Username: guest
+      RabbitMQ__Password: guest
+    volumes:
+    - customer-data:/app/data
+    depends_on:
+      rabbitmq :
+        condition: service_healthy
+
+  insurance-api:
+    build:
+      context: ../backend/InsuranceAPI
+    container_name: insurance-api
+    expose:
+      - "8080"
+
+    environment:
+      RabbitMQ__Host: rabbitmq
+      RabbitMQ__Username: guest
+      RabbitMQ__Password: guest
+
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq
+    ports:
+    - "5672:5672"
+    - "15672:15672"
+
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  angular-ui:
+    build:
+      context: ../frontend/insurance-ui
+    container_name: angular-ui
+    ports:
+      - "8080:80"
+    depends_on:
+      - gateway
+
+volumes:
+  customer-data:

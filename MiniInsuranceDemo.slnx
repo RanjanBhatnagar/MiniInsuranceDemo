@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/backend/">
+    <Project Path="backend/AuthAPI/AuthAPI.csproj" />
+    <Project Path="backend/CustomerAPI/CustomerAPI.csproj" />
+    <Project Path="backend/Gateway/Gateway.csproj" />
+    <Project Path="backend/InsuranceAPI/InsuranceAPI.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AuthAPI.Tests/AuthAPI.Tests.csproj" />
+    <Project Path="tests/CustomerAPI.Tests/CustomerAPI.Tests.csproj" />
+  </Folder>
+</Solution>

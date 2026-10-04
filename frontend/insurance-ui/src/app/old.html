@@ -1,0 +1,136 @@
+,
+  styleUrl: './app.css'
+
+
+<div class="container">
+
+  <h1>Mini Insurance Application</h1>
+
+  <div class="card">
+
+    <h2>Login</h2>
+
+    <input
+      type="text"
+      [(ngModel)]="username"
+      placeholder="Username">
+
+    <input
+      type="password"
+      [(ngModel)]="password"
+      placeholder="Password">
+
+    <button (click)="login()">
+      Login
+    </button>
+
+  </div>
+
+  @if (message()) {
+    <div class="message">
+      {{ message() }}
+    </div>
+  }
+
+
+  @if (loggedIn()) {
+
+    <div class="dashboard">
+
+      <h2>Insurance Dashboard</h2>
+
+      <p>JWT authentication successful.</p>
+
+      <button (click)="loadCustomers()">
+        Load Customers
+      </button>
+
+      <button (click)="loadPolicies()">
+        Load Policies
+      </button>
+
+
+      <!-- CUSTOMERS -->
+
+      @if (customers().length > 0) {
+
+        <h2>Customers</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            @for (customer of customers(); track customer.id) {
+
+              <tr>
+                <td>{{ customer.id }}</td>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.email }}</td>
+              </tr>
+
+            }
+
+          </tbody>
+        </table>
+
+      }
+      @else {
+
+        <p>No customers loaded.</p>
+
+      }
+
+
+      <!-- POLICIES -->
+
+      @if (policies().length > 0) {
+
+        <h2>Insurance Policies</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Policy Number</th>
+              <th>Customer ID</th>
+              <th>Type</th>
+              <th>Premium</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            @for (policy of policies(); track policy.id) {
+
+              <tr>
+                <td>{{ policy.id }}</td>
+                <td>{{ policy.policyNumber }}</td>
+                <td>{{ policy.customerId }}</td>
+                <td>{{ policy.type }}</td>
+                <td>{{ policy.premium }}</td>
+              </tr>
+
+            }
+
+          </tbody>
+        </table>
+
+      }
+      @else {
+
+        <p>No policies loaded.</p>
+
+      }
+
+    </div>
+
+  }
+
+</div>
