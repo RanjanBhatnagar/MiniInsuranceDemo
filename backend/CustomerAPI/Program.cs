@@ -58,7 +58,8 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddHttpClient("insurance");
 
-var app = builder.Build();
+//delibrated error for testing retry policy
+var app = builder.Build(
 
 using (var scope = app.Services.CreateScope())
 {
