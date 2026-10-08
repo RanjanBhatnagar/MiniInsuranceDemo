@@ -25,7 +25,7 @@ builder.Services.AddDbContext<CustomerDbContext>(options =>
 //builder.Services.AddDbContext<CustomerDbContext>(options =>
 //    options.UseSqlite("Data Source=customers.db"));
 
-builder.Services.AddScoped<RabbitMqPublisher>(
+builder.Services.AddScoped<RabbitMqPublisher>();
 
 var jwtKey = builder.Configuration["Jwt:Key"]!;
 
